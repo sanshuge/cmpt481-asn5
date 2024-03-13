@@ -6,16 +6,14 @@ class Gesture {
   ArrayList<Point> translatedPoints;
   ArrayList<Point> scaledPoints;
   BoundingBox boundingBox;
-  float templates[][];
+  float templates[][] ={};
   
-  
+
   public Gesture() {
     originalPoints = new ArrayList<>();
     resampledPoints = new ArrayList<>();
     translatedPoints= new ArrayList<>();
     scaledPoints = new ArrayList<>();
-
-    
    
   }
   
@@ -26,7 +24,7 @@ class Gesture {
   
   public void drawPoints () {
   
-    for (Point p :scaledPoints ) {
+    for (Point p :originalPoints ) {
       stroke(255, 204, 0); 
       strokeWeight(5);
       point(p.getX(), p.getY());
@@ -141,12 +139,20 @@ public void scalePoints () {
         for (Point p : translatedPoints) {
         float scaledX = p.getX() * 400/mx;
         float scaledY = p.getY() * 400/my;
-        println(scaledX,scaledY);
+        //println(scaledX,scaledY);
         scaledPoints.add(new Point(scaledX, scaledY));
 }
-  //  500,600     --> 400
  
-
-  
 }
+
+
+ float compare(Gesture g) {
+   
+   return 0;
+ 
+   
+   
+   
+   
+ }
 }
