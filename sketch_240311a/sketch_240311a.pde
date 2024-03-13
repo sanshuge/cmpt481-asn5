@@ -5,7 +5,10 @@ void setup(){
   gesture = new Gesture();
 }
 void draw(){
+  
   background(255);
+  line(400,0,400,400);
+  line(0,400,400,400);
   gesture.drawPoints();
 
 }
@@ -21,5 +24,8 @@ void mouseDragged(){
 }
 
 void mouseReleased(){
-println(gesture.originalPoints.size());
+gesture.reSample();
+gesture.createBoundingBox();
+gesture.scalePoints();
+
 }
