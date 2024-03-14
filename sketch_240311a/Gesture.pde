@@ -23,6 +23,7 @@ class Gesture {
   }
   
   public void drawPoints () {
+   
   
     for (Point p :originalPoints ) {
       stroke(255, 204, 0); 
@@ -175,9 +176,7 @@ public void processPoints() {
 
   public float compare(Gesture g) {
     float totaldist = 0;
-    g.reSample();
-g.createBoundingBox();
-g.scalePoints();
+   g.processPoints();
 
     for (int i =0;i< this.scaledPoints.size();i++) {
       totaldist += dist ( g.scaledPoints.get(i).getX(),g.scaledPoints.get(i).getY(),this.scaledPoints.get(i).getX(), this.scaledPoints.get(i).getY());
