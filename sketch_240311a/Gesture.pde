@@ -85,11 +85,7 @@ class Gesture {
     
       
     }
-    
-    
-    
-    
-    
+ 
 
   public BoundingBox createBoundingBox() {
     
@@ -111,15 +107,37 @@ class Gesture {
     
     // move to the origin
     
-        for (Point p :resampledPoints ) {
+     //   for (Point p :resampledPoints ) {
    
-          float tx = p.getX()-xs.min();
-          float ty = p.getY()-ys.min();
-          translatedPoints.add (new Point(tx,ty));       
-     }
+     //     float tx = p.getX()-xs.min();
+     //     float ty = p.getY()-ys.min();
+     //     translatedPoints.add (new Point(tx,ty));       
+     //}
    
     
       return boundingBox;
+  
+  }
+  
+  public void translatePoints() {
+    
+    
+    FloatList xs = new FloatList();
+    FloatList ys = new FloatList();
+     for (Point p :resampledPoints ) {
+     xs.append(p.getX());
+     }
+    for (Point p :resampledPoints ) {
+     ys.append(p.getY());
+     }
+    
+        for (Point p : resampledPoints) {
+        float tx = p.getX()-xs.min();
+          float ty = p.getY()-ys.min();
+        //println(scaledX,scaledY);
+        translatedPoints.add (new Point(tx,ty));      
+}
+  
   
   }
 
@@ -145,14 +163,31 @@ public void scalePoints () {
  
 }
 
+public void processPoints() {
+  reSample();
+  translatePoints();
+  scalePoints();
+  
+  
 
- float compare(Gesture g) {
+}
+
+
+  public float compare(Gesture g) {
+    float totaldist = 0;
+    g.reSample();
+g.createBoundingBox();
+g.scalePoints();
+
+    for (int i =0;i< this.scaledPoints.size();i++) {
+      totaldist += dist ( g.scaledPoints.get(i).getX(),g.scaledPoints.get(i).getY(),this.scaledPoints.get(i).getX(), this.scaledPoints.get(i).getY());
+      
    
-   return 0;
+    }
+     
+   
+   return totaldist;
  
-   
-   
-   
-   
+
  }
 }

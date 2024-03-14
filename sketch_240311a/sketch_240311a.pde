@@ -5,19 +5,19 @@ Gesture oval;
 void setup(){
   size(1200, 800);
   gesture = new Gesture();
-  
  oval  = new Gesture();
   for (int i =0;i<ovaltemplate.length;i++) {
     Point np = new Point(ovaltemplate[i][0],ovaltemplate[i][1]);
     oval.originalPoints.add(np); 
   }
-
+  oval.processPoints();
 
  rectangle  = new Gesture();
   for (int i =0;i<rectangletemplate.length;i++) {
     Point np = new Point(rectangletemplate[i][0],rectangletemplate[i][1]);
     rectangle.originalPoints.add(np); 
   }
+    rectangle.processPoints();
 
  alpha  = new Gesture();
   for (int i =0;i<alphatemplate.length;i++) {
@@ -26,6 +26,7 @@ void setup(){
   }
 
 
+alpha.processPoints();
 
 
 
@@ -38,6 +39,18 @@ void draw(){
   gesture.drawPoints();
 
 
+}
+void match(){
+  float k = oval.compare(gesture);
+  println("oval:   " + k);
+
+  float p = rectangle.compare(gesture);
+  println("rectangle:   " + p);
+  
+    float q = alpha.compare(gesture);
+  println("alpha:    " + q);
+  
+  
 }
 
 void mousePressed(){
@@ -52,8 +65,9 @@ void mouseDragged(){
 }
 
 void mouseReleased(){
-gesture.reSample();
-gesture.createBoundingBox();
-gesture.scalePoints();
+  gesture.processPoints();
+  match();
+
+
 
 }
