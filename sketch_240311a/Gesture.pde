@@ -94,10 +94,9 @@ class Gesture {
     FloatList ys = new FloatList();
      for (Point p :resampledPoints ) {
      xs.append(p.getX());
+        ys.append(p.getY());
      }
-    for (Point p :resampledPoints ) {
-     ys.append(p.getY());
-     }
+  
      
      float left = xs.min();
      float right = xs.max();
@@ -105,16 +104,7 @@ class Gesture {
      float bottom = ys.max();
      
     boundingBox = new BoundingBox(left,top,right,bottom);
-    
-    // move to the origin
-    
-     //   for (Point p :resampledPoints ) {
-   
-     //     float tx = p.getX()-xs.min();
-     //     float ty = p.getY()-ys.min();
-     //     translatedPoints.add (new Point(tx,ty));       
-     //}
-   
+
     
       return boundingBox;
   
@@ -127,11 +117,9 @@ class Gesture {
     FloatList ys = new FloatList();
      for (Point p :resampledPoints ) {
      xs.append(p.getX());
+          ys.append(p.getY());
      }
-    for (Point p :resampledPoints ) {
-     ys.append(p.getY());
-     }
-    
+
         for (Point p : resampledPoints) {
         float tx = p.getX()-xs.min();
           float ty = p.getY()-ys.min();
@@ -148,9 +136,7 @@ public void scalePoints () {
     FloatList ys = new FloatList();
      for (Point p :translatedPoints ) {
      xs.append(p.getX());
-     }
-    for (Point p :translatedPoints ) {
-     ys.append(p.getY());
+        ys.append(p.getY());
      }
      float mx = xs.max();
      float my = ys.max();

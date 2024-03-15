@@ -5,6 +5,9 @@ class Rectangle extends Shape {
 
   void drawShape() {
     fill(255,0,0);
-    rect(box.left, box.top, box.right, box.bottom);
+     float width = box.right - box.left;
+    float height = box.bottom - box.top;
+    // Draw the rectangle with calculated width and height
+    rect(box.left, box.top, width, height);
   }
 }

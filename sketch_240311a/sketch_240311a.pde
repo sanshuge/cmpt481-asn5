@@ -4,6 +4,10 @@ Gesture rectangle ;
 Gesture alpha ;
 ArrayList<Shape> shapes ;
 
+float ovalthreshold = 3500;
+float rectthreshold = 3500;
+float alphathreshold = 8000;
+
 Oval ovalShape;
 Rectangle ovalRect;
 
@@ -36,13 +40,14 @@ shapes = new ArrayList<>();
 
 
 
+
+
 }
 void draw(){
   
   background(255);
  
     for (Shape shape : shapes) {
-
     shape.drawShape();
   }
   gesture.drawPoints();
@@ -51,31 +56,61 @@ void draw(){
 }
 
 void match(){
-   FloatDict  gestures = new FloatDict();;
+   FloatDict  gestures = new FloatDict();
   
-  float o = oval.compare(gesture);
-  gestures.set("oval",o);
-
-  float r = rectangle.compare(gesture);
+    float o = oval.compare(gesture);
+    gestures.set("oval",o);
+    
+    println ("oval: ",o);
+    
+    float r = rectangle.compare(gesture);
     gestures.set("rectangle",r); 
- float a = alpha.compare(gesture);
-  gestures.set("alpha",a);
- 
-  float minIndex = gestures.minIndex();
+    
+    println ("rectangle: ",r);
+     float a = alpha.compare(gesture);
+    gestures.set("alpha",a);
+    
+     println ("alpha: ",a);
 
- String[] theKeys = gestures.keyArray();
-  float[] theValues = gestures.valueArray();
+  String match = gestures.keyArray()[gestures.minIndex()];
+  float distance = gestures.get(match);
+   
 
-for (int i =0;i<gestures.size();i++) {
+  println("Best match: "+ match +"  with error of "+  distance +" (under error threshold)");
   
-  println(theKeys[i],theValues[i]);
-  if (i == minIndex) {
-  println("Best match: "+theKeys[i] +"  with error of "+  theValues[i] +" (under error threshold)");
+  if (match == "oval" && distance<ovalthreshold) {
+  BoundingBox b = gesture.createBoundingBox();
+    Oval newOval = new Oval(b.left, b.top, b.right, b.bottom);
+        shapes.add(newOval);
+        //println("it is added");
+  
   }
-  
-}
+  else if (match == "rectangle" && distance < rectthreshold) {
+        BoundingBox b = gesture.createBoundingBox();
+        Rectangle newRect = new Rectangle(b.left, b.top, b.right, b.bottom);
+        shapes.add(newRect);
+          //println("it is added");
+        
+      
+  }
+  // delete the shape
+  else if (match == "alpha" && distance <= alphathreshold ) {
+    //  println("it is added");
+    Point initialPoint = gesture.originalPoints.get(0);
+     println("the inital point of this alpha is at   "+initialPoint.getX(),initialPoint.getY());
+   
+    for (int i =0 ; i<shapes.size();i++) {
+      if (shapes.get(i).contains(initialPoint.getX(),initialPoint.getY())) {
+       
+        shapes.remove(i);
+      
+      }
+    
+    }
 
-  
+
+
+  }
   
 }
 
@@ -92,7 +127,7 @@ void mouseDragged(){
 }
 
 void mouseReleased(){
-  BoundingBox b = gesture.createBoundingBox();
+  //BoundingBox b = gesture.createBoundingBox();
   gesture.processPoints();
   
   //Oval s = new Oval(b.left,b.top,b.right,b.bottom);
